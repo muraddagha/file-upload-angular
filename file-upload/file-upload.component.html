@@ -1,0 +1,25 @@
+<div class="file-upload-area mt-3">
+  <div class="row align-center justify-content-center">
+    <div *ngIf="!file" class="col-lg-4">
+      <label for="files" type="button" class="btn btn-warning">Loqo əlavə et</label>
+      <input id="files" multiple="multiple" (change)="fileChangeEvent($event)" type="file" class="d-none" accept="image/*" />
+    </div>
+    <div *ngIf="progressCount == 0" class="col-lg-4">
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="16 / 9" (imageCropped)="imageCropped($event)"> </image-cropper>
+    </div>
+    <div class="col-lg-4">
+      <img [src]="croppedImage" />
+    </div>
+    <div class="offset-lg-8 col-lg-4 mt-2">
+      <ng-container *ngIf="progressCount != 0 && progressCount != 100">
+        <app-upload-progress [barWidth]="barWidth" [progressCount]="progressCount"> </app-upload-progress>
+      </ng-container>
+    </div>
+  </div>
+  <div *ngIf="file && progressCount == 0" class="file-upload-btn mt-3">
+    <button *ngIf="!filePath" class="btn btn-success" type="button" (click)="uploadFile()">Yüklə</button>
+  </div>
+  <ng-container *ngIf="filePath && progressCount == 100">
+    <button class="btn btn-danger" type="button" (click)="remove()">Sil</button>
+  </ng-container>
+</div>
